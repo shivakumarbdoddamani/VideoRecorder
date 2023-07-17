@@ -26,8 +26,6 @@ const App = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
   const [videoPath, setVideoPath] = useState('');
-  const [showText, setShowText] = useState(false);
-  const [hideVideo, setHideVideo] = useState(false);
   const cameraRef = useRef();
   const devices = useCameraDevices('wide-angle-camera');
   const device = devices.back;
@@ -38,10 +36,15 @@ const App = () => {
 
   const recordComplete = path => {
     Alert.alert('Do you want to save this video?', '', [
-      {text: 'Cancel', style: 'cancel'},
+      {
+        text: 'Cancel',
+        onPress: () => NativeModules.DevSettings.reload(),
+        style: 'cancel',
+      },
       {
         text: 'Save',
         onPress: () => {
+          setVideoPath(path);
           CameraRoll.save(path);
           ToastAndroid.showWithGravity(
             'Video Saved to storage',
@@ -116,17 +119,12 @@ const App = () => {
         //   stopRecording();
         // },
         onRecordingFinished: video => {
-          clearInterval(interval);
-          setVideoPath(video?.path);
           recordComplete(String(video?.path));
         },
         onRecordingError: error => console.error(error),
         videoCodec: 'H264',
       };
       const recording = await cameraRef.current?.startRecording(options);
-      const interval = setInterval(() => {
-        setShowText(showText => !showText);
-      }, 1000);
     } catch (error) {
       console.warn(error);
     }
@@ -134,14 +132,18 @@ const App = () => {
 
   const pauseRecording = async () => {
     setIsRecordingPaused(true);
-    await camera.current.pauseRecording();
-    await timeout(500);
+    await cameraRef.current?.pauseRecording();
+    setTimeout(() => {
+      console.log('Paused');
+    }, 2000);
   };
 
   const resumeRecording = async () => {
+    await cameraRef.current?.resumeRecording();
     setIsRecordingPaused(false);
-    await camera.current.resumeRecording();
-    await timeout(2000);
+    setTimeout(() => {
+      console.log('Resumed');
+    }, 2000);
   };
 
   if (device == null)
@@ -159,18 +161,21 @@ const App = () => {
           audio={true}
           setIsPressingButton={true}
         />
-        {showText && (
-          <Text
-            style={{
-              color: 'red',
-              textAlign: 'center',
-              marginTop: 20,
-              fontWeight: 'bold',
-              fontSize: 24,
-            }}>
-            &#x2022; Recording
-          </Text>
-        )}
+        {isRecording ? (
+          isRecordingPaused ? (
+            <TouchableOpacity
+              style={styles.resumeButton}
+              onPress={resumeRecording}>
+              <Text style={styles.resumeButtonText}>Resume</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.pauseButton}
+              onPress={pauseRecording}>
+              <Text style={styles.pauseButtonText}>Pause</Text>
+            </TouchableOpacity>
+          )
+        ) : null}
         {isRecording ? (
           <TouchableOpacity style={styles.recordButton} onPress={stopRecording}>
             <Text style={styles.recordButtonText}>Stop</Text>
@@ -184,7 +189,7 @@ const App = () => {
         )}
 
         {videoPath !== '' && (
-          <View style={hideVideo ? {display: 'none'} : styles.videoContainer}>
+          <View style={styles.videoContainer}>
             <Video
               source={{uri: videoPath}}
               style={styles.videoPlayer}
@@ -200,6 +205,13 @@ const App = () => {
             />
           </View>
         )}
+        {/* {videoPath === '' && (
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => NativeModules.DevSettings.reload()}>
+            <Text style={styles.closeButtonText}>Back</Text>
+          </TouchableOpacity>
+        )} */}
       </View>
     </SafeAreaView>
   );
@@ -212,6 +224,36 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+  },
+  resumeButton: {
+    position: 'absolute',
+    left: 30,
+    bottom: 20,
+    backgroundColor: 'yellow',
+    padding: 25,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+  },
+  resumeButtonText: {
+    paddingTop: 12,
+    fontSize: 10,
+    color: '#000',
+  },
+  pauseButton: {
+    position: 'absolute',
+    left: 30,
+    bottom: 20,
+    backgroundColor: 'yellow',
+    padding: 25,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+  },
+  pauseButtonText: {
+    paddingTop: 10,
+    fontSize: 12,
+    color: '#000',
   },
   recordButton: {
     position: 'absolute',

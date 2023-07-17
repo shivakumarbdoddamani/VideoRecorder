@@ -32,7 +32,8 @@ com.videorecorder.app-mergeDebugResources-30 C:\Users\Shivakumar\OneDrive\Deskto
 com.videorecorder.app-merged_res-31 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\android\app\build\intermediates\merged_res\debug
 com.videorecorder.app-debug-32 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\android\app\src\debug\res
 com.videorecorder.app-main-33 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\android\app\src\main\res
-com.videorecorder.app-packaged_res-34 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-fs\android\build\intermediates\packaged_res\debug
-com.videorecorder.app-packaged_res-35 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-permissions\android\build\intermediates\packaged_res\debug
-com.videorecorder.app-packaged_res-36 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-video\android\build\intermediates\packaged_res\debug
-com.videorecorder.app-packaged_res-37 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-vision-camera\android\build\intermediates\packaged_res\debug
+com.videorecorder.app-packaged_res-34 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\@react-native-camera-roll\camera-roll\android\build\intermediates\packaged_res\debug
+com.videorecorder.app-packaged_res-35 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-fs\android\build\intermediates\packaged_res\debug
+com.videorecorder.app-packaged_res-36 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-permissions\android\build\intermediates\packaged_res\debug
+com.videorecorder.app-packaged_res-37 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-video\android\build\intermediates\packaged_res\debug
+com.videorecorder.app-packaged_res-38 C:\Users\Shivakumar\OneDrive\Desktop\Projects\VideoRecorder\node_modules\react-native-vision-camera\android\build\intermediates\packaged_res\debug
